@@ -33,7 +33,7 @@
 12. I know that it is possible to make program much better but during given time managed to do it this way.
 13. At the moment of creation of account we have zero balance so we have to add money manual at the moment
 14. Left 'update' operation from CRUD for future
-15. ~~There is problem with saving transfer because of time.~~
+15. Using Jackson add-on to support jsr310 (Java 8 Date & Time API) ~~There is problem with saving transfer because of time.~~
 
 ## Model
 
@@ -65,9 +65,19 @@
     * Own operations
         * person create personName - creation of person with name 'personName'
         * currency create currencyCode
-        * bank create bankName individualTransferRate legalTransferRate
+        * bank create bankName individualTransferRate legalTransferRate - creation of bank
             * bankName - bank name
             * individualTransferRate - transfer rate for individual client(not percent). Using rate we don't need to use
               additional operation of multiplication
             * legalTransferRate - transfer rate for legal client(not percent).
-        *  client create isIndividual bankId personId defaultCurrencyId
+        * client create isIndividual bankId personId defaultCurrencyId - creation of client. By default one account is being opened with defaultCurrencyId in the same bank as client is. 
+        * account create currencyId clientId - account creation for existing customer
+        * transfer create fromAccountId toAccountId amount - transfering 'amount' of money from 'from' account to 'to'.
+        * bank delete bankId - logical deletion of bank and all dependencies with id=bankId 
+        * client delete clientId - logical  deletion of client with id=clientId
+        * transfer find dateFrom dateTo - get list of transfers during specified period 
+
+## Instructions to use
+1. User can delete existing data file and application will start from scratch or you can continue to use existing data
+2. Application load data at start and save it after 'exit' command.
+3. Command start to process after pressing "Enter"
